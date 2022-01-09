@@ -20,15 +20,12 @@ using UnityEngine;
 [ProtoContract]
 public class SaveData
 {
-    [ProtoMap(DisableMap = true)]
     [ProtoMember(1)]
-    public Dictionary<string, float> Position { get; set; } = new Dictionary<string, float>();
-    [ProtoMember(2)]
-    public bool isOutdoor { get; set; } = false;
+    public int HighScore = 0;
 }
 static public class SaveManager
 {
-    static private string FilePath = "Default_Save.dat";
+    static private string FilePath = "Default_Save.bin";
     static public string SavePath
     {
         set { FilePath = value; }

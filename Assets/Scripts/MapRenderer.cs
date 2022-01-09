@@ -15,39 +15,53 @@ public class MapRenderer : MonoBehaviour
     private List<Pipe> PipeComponents = new List<Pipe>();
     private float pipeSpawnTimer;
     private int SpawnedPipes;
+    private int PlayerScore;
+    private static MapRenderer instance;
+    public static int getScore { get => instance.PlayerScore; }
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Start()
     {
         
     }
     private void Update()
     {
-        // Pipes Movement
-        for (int i=0;i<PipeComponents.Count;i++)
+        if(PlayerHandler.GameState == GameState.Playing)
         {
-            Pipe pipeComponent = PipeComponents[i];
-            pipeComponent.Move(50);
-            if (pipeComponent.getXPos < -Pipe_Add_Pos)
+            // Pipes Movement
+            for (int i = 0; i < PipeComponents.Count; i++)
             {
-                pipeComponent.Destory();
-                PipeComponents.Remove(pipeComponent);
-                i--;
+                Pipe pipeComponent = PipeComponents[i];
+                bool isToTheRightOfBird = pipeComponent.getXPos > 0f;
+                pipeComponent.Move(50);
+                if (isToTheRightOfBird && pipeComponent.getXPos <= 0f && pipeComponent.isTop)
+                {
+                    PlayerScore += 1;
+                    UIServiceHandler.instance.ScoreUI = PlayerScore;
+                }
+                if (pipeComponent.getXPos < -Pipe_Add_Pos)
+                {
+                    pipeComponent.Destory();
+                    PipeComponents.Remove(pipeComponent);
+                    i--;
+                }
+            }
+            // Pipe Spawner
+            pipeSpawnTimer -= Time.deltaTime;
+            if (pipeSpawnTimer < 0)
+            {
+                pipeSpawnTimer += 2f;
+                SpawnedPipes += 1;
+                float SpawnSize = CalculateSizeDifficulty();
+                float minHeight = SpawnSize / 2f + SpawnHeightLimit;
+                float maxHeight = (Camera.orthographicSize * 2f) - (SpawnSize * .5f) - SpawnHeightLimit;
+                newPipe(Random.Range(minHeight, maxHeight), Pipe_Add_Pos, SpawnSize);
             }
         }
-        // Pipe Spawner
-        pipeSpawnTimer -= Time.deltaTime;
-        if(pipeSpawnTimer < 0)
-        {
-            pipeSpawnTimer += 2f;
-            SpawnedPipes += 1;
-            float SpawnSize = CalculateSizeDifficulty();
-            float minHeight = SpawnSize / 2f + SpawnHeightLimit;
-            float maxHeight = (Camera.orthographicSize * 2f) - (SpawnSize * .5f) - SpawnHeightLimit;
-            newPipe(Random.Range(minHeight,maxHeight), Pipe_Add_Pos, SpawnSize);
-        }
-
-
     }
-    private float CalculateSizeDifficulty()
+     private float CalculateSizeDifficulty()
     {
         if (SpawnedPipes >= 100) return 20;
         if (SpawnedPipes >= 50) return 25;
@@ -84,16 +98,18 @@ public class MapRenderer : MonoBehaviour
         BodyCollider.offset = Vector2.up * (Height - HeadHeight) * .5f;
         BodyCollider.size = new Vector2(BodyCollider.size.x, Height-HeadHeight);
         // Add pipes to the Pipes list
-        PipeComponents.Add(new Pipe(Head, Body));
+        PipeComponents.Add(new Pipe(Head, Body, isTop));
     }
     private class Pipe
     {
         Transform _Head;
         Transform _Body;
-        public Pipe(Transform Head, Transform Body)
+        public bool isTop { get; set; }
+        public Pipe(Transform Head, Transform Body, bool isTopPipe = false)
         {
             _Head = Head;
             _Body = Body;
+            isTop = isTopPipe;
         }
         public void Move(float distance)
         {
