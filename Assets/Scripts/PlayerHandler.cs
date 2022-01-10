@@ -1,6 +1,7 @@
 using ProtoBuf;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -63,12 +64,8 @@ public class PlayerHandler : MonoBehaviour
             GameState = GameState.Dead;
             if (MapRenderer.getScore > SaveManager.Data.HighScore)
                 SaveManager.Data.HighScore = MapRenderer.getScore;
-            StartCoroutine(AutoRespawn());
+            UIServiceHandler.instance.ShowDeadMenu();
+            SaveManager.SaveToDisk();
         }
-    }
-    private IEnumerator AutoRespawn()
-    {
-        yield return new WaitForSeconds(3);
-        SceneManager.LoadScene("MainGame",LoadSceneMode.Single);
     }
 }

@@ -21,7 +21,7 @@ using UnityEngine;
 public class SaveData
 {
     [ProtoMember(1)]
-    public int HighScore = 0;
+    public int HighScore { get; set; } = 0;
 }
 static public class SaveManager
 {

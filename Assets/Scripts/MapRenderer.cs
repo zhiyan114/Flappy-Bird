@@ -9,7 +9,11 @@ public class MapRenderer : MonoBehaviour
     private const float HeadHeight = 5f;
     [SerializeField]
     private Camera Camera;
-    private float Pipe_Add_Pos = 130f;
+    [SerializeField]
+    private Transform HeadPipeSprite;
+    [SerializeField]
+    private Transform BodyPipeSprite;
+    private float Pipe_Add_Pos = 200f;
     private float SpawnHeightLimit = 10f;
     // Pipe Runtime Data
     private List<Pipe> PipeComponents = new List<Pipe>();
@@ -79,13 +83,13 @@ public class MapRenderer : MonoBehaviour
     private void newRawPipe(float Height, float xPosition, bool isTop = false)
     {
         // Configure Pipe's Head
-        Transform Head = Instantiate(AssetManager.instance.HeadPipeSprite);
+        Transform Head = Instantiate(HeadPipeSprite);
         float headYPos = -Camera.orthographicSize + Height - HeadHeight * .5f;
         if (isTop)
             headYPos = Camera.orthographicSize - Height + HeadHeight * .5f;
         Head.position = new Vector2(xPosition, headYPos);
         // Configure Pipe's Body
-        Transform Body = Instantiate(AssetManager.instance.BodyPipeSprite);
+        Transform Body = Instantiate(BodyPipeSprite);
         float bodyYPos = -Camera.orthographicSize;
         if (isTop) {
             bodyYPos = Camera.orthographicSize;
