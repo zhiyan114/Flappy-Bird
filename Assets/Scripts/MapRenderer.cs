@@ -42,6 +42,7 @@ public class MapRenderer : MonoBehaviour
                 pipeComponent.Move(50);
                 if (isToTheRightOfBird && pipeComponent.getXPos <= 0f && pipeComponent.isTop)
                 {
+                    SoundHandler.PlaySound(SoundOption.Point);
                     PlayerScore += 1;
                     UIServiceHandler.instance.ScoreUI = PlayerScore;
                 }

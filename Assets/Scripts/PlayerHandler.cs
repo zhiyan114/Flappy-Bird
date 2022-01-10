@@ -43,7 +43,10 @@ public class PlayerHandler : MonoBehaviour
     private void Jump()
     {
         if(GameState == GameState.Playing)
+        {
+            SoundHandler.PlaySound(SoundOption.Wing);
             rb.velocity = Vector2.up * 65;
+        }
     }
     public void JumpInput(InputAction.CallbackContext cb)
     {
@@ -62,10 +65,20 @@ public class PlayerHandler : MonoBehaviour
         if (collision.name.Contains("Pipe"))
         {
             GameState = GameState.Dead;
+            StartCoroutine(DeathHandler());
             if (MapRenderer.getScore > SaveManager.Data.HighScore)
                 SaveManager.Data.HighScore = MapRenderer.getScore;
-            UIServiceHandler.instance.ShowDeadMenu();
             SaveManager.SaveToDisk();
         }
     }
+    private IEnumerator DeathHandler()
+    {
+        SoundHandler.PlaySound(SoundOption.Hit);
+        yield return new WaitForSeconds(.5f);
+        SoundHandler.PlaySound(SoundOption.Die);
+        yield return new WaitForSeconds(.3f);
+        UIServiceHandler.instance.ShowDeadMenu();
+
+    }
+
 }
