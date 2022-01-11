@@ -71,6 +71,19 @@ public class PlayerHandler : MonoBehaviour
             SaveManager.SaveToDisk();
         }
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (GameState != GameState.Playing) return;
+        // Death Handler
+        if (collision.collider.name.Contains("Ground"))
+        {
+            GameState = GameState.Dead;
+            StartCoroutine(DeathHandler());
+            if (MapRenderer.getScore > SaveManager.Data.HighScore)
+                SaveManager.Data.HighScore = MapRenderer.getScore;
+            SaveManager.SaveToDisk();
+        }
+    }
     private IEnumerator DeathHandler()
     {
         SoundHandler.PlaySound(SoundOption.Hit);

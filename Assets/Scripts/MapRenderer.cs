@@ -7,14 +7,17 @@ using UnityEngine;
 public class MapRenderer : MonoBehaviour
 {
     private const float HeadHeight = 5f;
+    private const float Ground_Spawn = 210f;
+    private const float Pipe_Add_Pos = 200f;
+    private const float SpawnHeightLimit = 10f;
     [SerializeField]
     private Camera Camera;
     [SerializeField]
     private Transform HeadPipeSprite;
     [SerializeField]
     private Transform BodyPipeSprite;
-    private float Pipe_Add_Pos = 200f;
-    private float SpawnHeightLimit = 10f;
+    [SerializeField]
+    private Transform GroundObject;
     // Pipe Runtime Data
     private List<Pipe> PipeComponents = new List<Pipe>();
     private float pipeSpawnTimer;
@@ -25,10 +28,6 @@ public class MapRenderer : MonoBehaviour
     private void Awake()
     {
         instance = this;
-    }
-    private void Start()
-    {
-        
     }
     private void Update()
     {
@@ -63,6 +62,27 @@ public class MapRenderer : MonoBehaviour
                 float minHeight = SpawnSize / 2f + SpawnHeightLimit;
                 float maxHeight = (Camera.orthographicSize * 2f) - (SpawnSize * .5f) - SpawnHeightLimit;
                 newPipe(Random.Range(minHeight, maxHeight), Pipe_Add_Pos, SpawnSize);
+            }
+        }
+        if(PlayerHandler.GameState != GameState.Dead)
+        {
+            // Ground Spawner
+            foreach (Transform Ground in GroundObject)
+            {
+                Ground.position += Vector3.left * 50 * Time.deltaTime;
+                if (Ground.position.x < -Ground_Spawn)
+                {
+                    float rightMostX = -Ground_Spawn;
+                    for (int i = 0; i < GroundObject.childCount; i++)
+                    {
+                        Transform ChildGND = GroundObject.GetChild(i);
+                        if (ChildGND.position.x > rightMostX)
+                            rightMostX = ChildGND.position.x;
+                    }
+                    float halfWidth = Ground.GetComponent<SpriteRenderer>().size.x /2 ;
+                    Ground.position = new Vector3(rightMostX + halfWidth, Ground.position.y, Ground.position.z);
+
+                }
             }
         }
     }

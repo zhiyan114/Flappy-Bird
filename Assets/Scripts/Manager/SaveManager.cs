@@ -87,6 +87,7 @@ static public class SaveManager
      */
     static public bool LoadFromDisk()
     {
+        if (!SaveFileExist()) return false;
         try
         {
             using (FileStream SaveFile = new FileStream(FilePath, FileMode.Open))
