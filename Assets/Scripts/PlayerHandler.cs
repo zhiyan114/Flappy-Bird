@@ -52,6 +52,7 @@ public class PlayerHandler : MonoBehaviour
     {
         if (GameState == GameState.WaitToStart)
         {
+            UIServiceHandler.closeStartWindow();
             rb.bodyType = RigidbodyType2D.Dynamic;
             GameState = GameState.Playing;
         }
@@ -62,7 +63,7 @@ public class PlayerHandler : MonoBehaviour
     {
         if (GameState != GameState.Playing) return;
         // Death Handler
-        if (collision.name.Contains("Pipe"))
+        if (collision.name.Contains("Pipe") || collision.name.Contains("Ground"))
         {
             GameState = GameState.Dead;
             StartCoroutine(DeathHandler());
@@ -91,6 +92,8 @@ public class PlayerHandler : MonoBehaviour
         SoundHandler.PlaySound(SoundOption.Die);
         yield return new WaitForSeconds(.3f);
         UIServiceHandler.instance.ShowDeadMenu();
+        yield return new WaitForSeconds(.5f);
+        rb.bodyType = RigidbodyType2D.Static;
 
     }
 

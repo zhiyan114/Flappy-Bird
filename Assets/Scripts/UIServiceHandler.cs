@@ -56,4 +56,11 @@ public class UIServiceHandler : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
+    // Start Window Handler
+    [SerializeField]
+    private GameObject _StartWindow;
+    public static void closeStartWindow()
+    {
+        instance._StartWindow.SetActive(false);
+    }
 }
