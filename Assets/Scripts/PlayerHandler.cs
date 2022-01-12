@@ -92,7 +92,7 @@ public class PlayerHandler : MonoBehaviour
         SoundHandler.PlaySound(SoundOption.Die);
         yield return new WaitForSeconds(.3f);
         UIServiceHandler.instance.ShowDeadMenu();
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(1f);
         rb.bodyType = RigidbodyType2D.Static;
 
     }
