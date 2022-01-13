@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class UIServiceHandler : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class UIServiceHandler : MonoBehaviour
     {
         // Default UI configuration setup
         _DeadMenu.SetActive(false);
+        _StartWindow.SetActive(true);
+        _PauseMenu.SetActive(false);
         HighScore = SaveManager.Data.HighScore;
     }
     // Player Score Handling
@@ -62,5 +65,30 @@ public class UIServiceHandler : MonoBehaviour
     public static void closeStartWindow()
     {
         instance._StartWindow.SetActive(false);
+    }
+    // Pause Menu Handler
+    [SerializeField]
+    private GameObject _PauseMenu;
+    public static bool pauseMenuVisible
+    {
+        get => instance._PauseMenu.activeSelf;
+    }
+    public void PauseKeyPressed(InputAction.CallbackContext cb)
+    {
+        if (cb.phase == InputActionPhase.Started && PlayerHandler.GameState != GameState.Dead)
+        {
+            _PauseMenu.SetActive(!_PauseMenu.activeSelf);
+            Time.timeScale = _PauseMenu.activeSelf ? 0 : 1;
+        }
+    }
+    public void Resumebtn_Handler()
+    {
+        _PauseMenu.SetActive(false);
+        Time.timeScale = 1;
+    }
+    public void Exitbtn_Handler()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

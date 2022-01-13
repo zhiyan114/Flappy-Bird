@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-
 public class MapRenderer : MonoBehaviour
 {
     private const float HeadHeight = 5f;
@@ -18,6 +17,8 @@ public class MapRenderer : MonoBehaviour
     private Transform BodyPipeSprite;
     [SerializeField]
     private Transform GroundObject;
+    [SerializeField]
+    private Transform CoinSprite;
     // Pipe Runtime Data
     private List<Pipe> PipeComponents = new List<Pipe>();
     private float pipeSpawnTimer;
@@ -122,31 +123,43 @@ public class MapRenderer : MonoBehaviour
         BoxCollider2D BodyCollider = Body.GetComponent<BoxCollider2D>();
         BodyCollider.offset = Vector2.up * (Height - HeadHeight) * .5f;
         BodyCollider.size = new Vector2(BodyCollider.size.x, Height-HeadHeight);
+        // Configure Coin
+        Transform Coin = null;
+        // 25% chances for coin to spawn
+        if(Random.Range(0f, 1f) < 0.25)
+        {
+            // It is the 25% now set it up
+            Coin = null;
+        }
         // Add pipes to the Pipes list
-        PipeComponents.Add(new Pipe(Head, Body, isTop));
+        PipeComponents.Add(new Pipe(Head, Body, isTop, Coin));
     }
     private class Pipe
     {
         Transform _Head;
         Transform _Body;
+        Transform _Coin;
         public bool isTop { get; set; }
-        public Pipe(Transform Head, Transform Body, bool isTopPipe = false)
+        public Pipe(Transform Head, Transform Body, bool isTopPipe = false, Transform coin = null)
         {
             _Head = Head;
             _Body = Body;
             isTop = isTopPipe;
+            if(!(coin is null)) _Coin = coin;
         }
         public void Move(float distance)
         {
             Vector3 newPos = Vector3.left * distance * Time.deltaTime;
             _Head.position += newPos;
             _Body.position += newPos;
+            if (!(_Coin is null)) _Coin.position += newPos;
         }
         public float getXPos { get => _Head.position.x; }
         public void Destory()
         {
             Destroy(_Head.gameObject);
             Destroy(_Body.gameObject);
+            if (!(_Coin is null)) Destroy(_Body.gameObject);
         }
     }
 }

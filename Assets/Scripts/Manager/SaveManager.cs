@@ -103,10 +103,14 @@ static public class SaveManager
                         Data.GetType().GetProperty(prop.Name).SetValue(Data, prop.GetValue(internalDat, null));
                 }
             }
-        }
-        catch (InvalidCipherTextException ex)
+        } catch (FileNotFoundException)
         {
-            Debug.LogException(ex);
+            // Save files aren't existed yet lol
+            return false;
+        }
+        catch (InvalidCipherTextException)
+        {
+            // Someone prob tampered with the save file
             return false;
         }
         catch (Exception ex)

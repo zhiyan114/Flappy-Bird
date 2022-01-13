@@ -42,6 +42,7 @@ public class PlayerHandler : MonoBehaviour
     }
     private void Jump()
     {
+        if (UIServiceHandler.pauseMenuVisible) return;
         if(GameState == GameState.Playing)
         {
             SoundHandler.PlaySound(SoundOption.Wing);
