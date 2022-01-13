@@ -1750,6 +1750,7 @@ MonoBehaviour:
   HeadPipeSprite: {fileID: 8210095354236062303, guid: 5689b3f03784fcd4983af74896d4b371, type: 3}
   BodyPipeSprite: {fileID: 2408323587610902696, guid: 5a52935055b34c849af272f64505def6, type: 3}
   GroundObject: {fileID: 850890672}
+  CoinSprite: {fileID: 5699938419482648369, guid: 3ff823ac5f81fbc4f8ad5199bbfcb6c3, type: 3}
 --- !u!1 &1115140798
 GameObject:
   m_ObjectHideFlags: 0

@@ -99,10 +99,10 @@ public class MapRenderer : MonoBehaviour
     }
     private void newPipe(float gapY, float xPos, float size = 25)
     {
-        newRawPipe(gapY - size * .5f, xPos);
-        newRawPipe(Camera.orthographicSize * 2f - gapY - size * .5f, xPos, true);
+        newRawPipe(gapY - size * .5f, xPos, size, false);
+        newRawPipe(Camera.orthographicSize * 2f - gapY - size * .5f, xPos, size, true);
     }
-    private void newRawPipe(float Height, float xPosition, bool isTop = false)
+    private void newRawPipe(float Height, float xPosition, float size, bool isTop = false)
     {
         // Configure Pipe's Head
         Transform Head = Instantiate(HeadPipeSprite);
@@ -126,10 +126,11 @@ public class MapRenderer : MonoBehaviour
         // Configure Coin
         Transform Coin = null;
         // 25% chances for coin to spawn
-        if(Random.Range(0f, 1f) < 0.25)
+        if(Random.Range(0f, 1f) <= 0.5 && isTop)
         {
-            // It is the 25% now set it up
-            Coin = null;
+            // It is the 50% now set it up (well not really the 50% since it only top)
+            Coin = Instantiate(CoinSprite);
+            Coin.position = new Vector2(xPosition, headYPos - size/2);
         }
         // Add pipes to the Pipes list
         PipeComponents.Add(new Pipe(Head, Body, isTop, Coin));

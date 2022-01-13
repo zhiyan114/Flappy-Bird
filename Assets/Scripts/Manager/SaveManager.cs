@@ -22,6 +22,8 @@ public class SaveData
 {
     [ProtoMember(1)]
     public int HighScore { get; set; } = 0;
+    [ProtoMember(2)]
+    public int Balance { get; set; } = 0;
 }
 static public class SaveManager
 {

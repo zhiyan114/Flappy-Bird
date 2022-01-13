@@ -71,6 +71,9 @@ public class PlayerHandler : MonoBehaviour
             if (MapRenderer.getScore > SaveManager.Data.HighScore)
                 SaveManager.Data.HighScore = MapRenderer.getScore;
             SaveManager.SaveToDisk();
+        } else if(collision.name.Contains("CollectableCoin"))
+        {
+            // User got coin LOL
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
