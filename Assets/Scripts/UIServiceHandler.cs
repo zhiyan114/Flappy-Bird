@@ -17,6 +17,7 @@ public class UIServiceHandler : MonoBehaviour
         _DeadMenu.SetActive(false);
         _StartWindow.SetActive(true);
         _PauseMenu.SetActive(false);
+        setCoinCountUI(SaveManager.Data.Balance);
         HighScore = SaveManager.Data.HighScore;
     }
     // Player Score Handling
@@ -91,4 +92,13 @@ public class UIServiceHandler : MonoBehaviour
         Time.timeScale = 1;
         SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
+    // Coin UI Handler
+    [SerializeField]
+    private TextMeshProUGUI _CoinsCountWindow;
+    public static void setCoinCountUI(int coins)
+    {
+        instance._CoinsCountWindow.text = coins.ToString();
+    }
+
+
 }

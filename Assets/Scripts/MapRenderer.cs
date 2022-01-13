@@ -146,21 +146,21 @@ public class MapRenderer : MonoBehaviour
             _Head = Head;
             _Body = Body;
             isTop = isTopPipe;
-            if(!(coin is null)) _Coin = coin;
+            if(coin != null) _Coin = coin;
         }
         public void Move(float distance)
         {
             Vector3 newPos = Vector3.left * distance * Time.deltaTime;
             _Head.position += newPos;
             _Body.position += newPos;
-            if (!(_Coin is null)) _Coin.position += newPos;
+            if (_Coin != null) _Coin.position += newPos;
         }
         public float getXPos { get => _Head.position.x; }
         public void Destory()
         {
             Destroy(_Head.gameObject);
             Destroy(_Body.gameObject);
-            if (!(_Coin is null)) Destroy(_Body.gameObject);
+            if (_Coin != null) Destroy(_Body.gameObject);
         }
     }
 }

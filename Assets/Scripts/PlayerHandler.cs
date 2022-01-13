@@ -74,6 +74,8 @@ public class PlayerHandler : MonoBehaviour
         } else if(collision.name.Contains("CollectableCoin"))
         {
             // User got coin LOL
+            EconomyManager.setBalance(1);
+            Destroy(collision.gameObject);
         }
     }
     private void OnCollisionEnter2D(Collision2D collision)
