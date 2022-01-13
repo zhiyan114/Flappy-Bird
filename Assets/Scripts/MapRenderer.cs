@@ -126,7 +126,7 @@ public class MapRenderer : MonoBehaviour
         // Configure Coin
         Transform Coin = null;
         // 25% chances for coin to spawn
-        if(Random.Range(0f, 1f) <= 0.5 && isTop)
+        if(Random.Range(0f, 1f) <= 0.35 && isTop)
         {
             // It is the 50% now set it up (well not really the 50% since it only top)
             Coin = Instantiate(CoinSprite);
