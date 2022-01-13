@@ -42,7 +42,6 @@ public class PlayerHandler : MonoBehaviour
     }
     private void Jump()
     {
-        if (UIServiceHandler.pauseMenuVisible) return;
         if(GameState == GameState.Playing)
         {
             SoundHandler.PlaySound(SoundOption.Wing);
@@ -51,6 +50,7 @@ public class PlayerHandler : MonoBehaviour
     }
     public void JumpInput(InputAction.CallbackContext cb)
     {
+        if (UIServiceHandler.pauseMenuVisible) return;
         if (GameState == GameState.WaitToStart)
         {
             UIServiceHandler.closeStartWindow();
