@@ -17,6 +17,7 @@ public class UIServiceHandler : MonoBehaviour
         _DeadMenu.SetActive(false);
         _StartWindow.SetActive(true);
         _PauseMenu.SetActive(false);
+        _ResumeWindow.SetActive(false);
         setCoinCountUI(SaveManager.Data.Balance);
         HighScore = SaveManager.Data.HighScore;
     }
@@ -76,16 +77,26 @@ public class UIServiceHandler : MonoBehaviour
     }
     public void PauseKeyPressed(InputAction.CallbackContext cb)
     {
+        if (isResumeWindowVisible && PlayerHandler.GameState == GameState.Playing) return;
         if (cb.phase == InputActionPhase.Started && PlayerHandler.GameState != GameState.Dead)
         {
             _PauseMenu.SetActive(!_PauseMenu.activeSelf);
-            Time.timeScale = _PauseMenu.activeSelf ? 0 : 1;
+            //Time.timeScale = _PauseMenu.activeSelf ? 0 : 1;
+            if (_PauseMenu.activeSelf) { Time.timeScale = 0; return; }
+            if (PlayerHandler.GameState == GameState.Playing)
+                StartCoroutine(RunResumeWindow());
+            else
+                Time.timeScale = _PauseMenu.activeSelf ? 0 : 1;
         }
     }
     public void Resumebtn_Handler()
     {
         _PauseMenu.SetActive(false);
-        Time.timeScale = 1;
+        if (PlayerHandler.GameState == GameState.Playing)
+            StartCoroutine(RunResumeWindow());
+        else
+            Time.timeScale = _PauseMenu.activeSelf ? 0 : 1;
+        //Time.timeScale = 1;
     }
     public void Exitbtn_Handler()
     {
@@ -99,6 +110,21 @@ public class UIServiceHandler : MonoBehaviour
     {
         instance._CoinsCountWindow.text = coins.ToString();
     }
-
+    // Resume UI Handler
+    [SerializeField]
+    private GameObject _ResumeWindow;
+    private IEnumerator RunResumeWindow()
+    {
+        _ResumeWindow.SetActive(true);
+        for (int i=3;i>0;i--)
+        {
+            _ResumeWindow.transform.Find("Text").GetComponent<TextMeshProUGUI>().text = string.Format("Resume in {0}...",i);
+            yield return new WaitForSecondsRealtime(1f);
+        }
+        _ResumeWindow.SetActive(false);
+        PlayerHandler.PlayerVelocity = Vector2.zero;
+        Time.timeScale = 1;
+    }
+    public bool isResumeWindowVisible { get => instance._ResumeWindow.activeSelf;  } 
 
 }

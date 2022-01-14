@@ -23,6 +23,11 @@ public class PlayerHandler : MonoBehaviour
     private GameState _GameState = GameState.WaitToStart;
     public static GameState GameState { get => instance._GameState; set => instance._GameState = value; }
     private Rigidbody2D rb;
+    public static Vector2 PlayerVelocity
+    {
+        get => instance.rb.velocity;
+        set => instance.rb.velocity = value;
+    }
     private void Awake()
     {
         PlrInput = GetComponent<PlayerInput>();
