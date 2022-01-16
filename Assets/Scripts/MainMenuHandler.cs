@@ -12,6 +12,10 @@ public class MainMenuHandler : MonoBehaviour
         SaveManager.SavePath = Application.persistentDataPath + "/Save.bin";
         SaveManager.SetKey = Encoding.UTF8.GetBytes("!CheatYourHighScoreIfYouWantUwU!");
         SaveManager.LoadFromDisk();
+        // 30fps for android
+#if PLATFORM_ANDROID
+        Application.targetFrameRate = 30;
+#endif
     }
     public void Startbtn_Handler()
     {
