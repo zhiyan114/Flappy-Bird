@@ -20,8 +20,8 @@ public class PlayerHandler : MonoBehaviour
 {
     private PlayerInput PlrInput;
     private static PlayerHandler instance;
-    private GameState _GameState = GameState.WaitToStart;
-    public static GameState GameState { get => instance._GameState; set => instance._GameState = value; }
+    private GameState _PlrGameState = GameState.WaitToStart;
+    public static GameState PlrGameState { get => instance._PlrGameState; set => instance._PlrGameState = value; }
     private Rigidbody2D rb;
     public static Vector2 PlayerVelocity
     {
@@ -38,16 +38,21 @@ public class PlayerHandler : MonoBehaviour
     void Start()
     {
         rb.bodyType = RigidbodyType2D.Static;
+#if PLATFORM_STANDALONE
+        DiscordManager.SetPresence(_PlrGameState, SaveManager.Data.HighScore, 0);
+#endif
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+#if PLATFORM_STANDALONE
+        DiscordManager.UpdateCaller();
+#endif
     }
     private void Jump()
     {
-        if(GameState == GameState.Playing)
+        if(_PlrGameState == GameState.Playing)
         {
             SoundHandler.PlaySound(SoundOption.Wing);
             rb.velocity = Vector2.up * 65;
@@ -55,26 +60,30 @@ public class PlayerHandler : MonoBehaviour
     }
     public void JumpInput(InputAction.CallbackContext cb)
     {
-        if (UIServiceHandler.pauseMenuVisible) return;
-        if (GameState == GameState.WaitToStart)
+        if (UIServiceHandler.pauseMenuVisible || UIServiceHandler.isResumeWindowVisible) return;
+        if (_PlrGameState == GameState.WaitToStart)
         {
             UIServiceHandler.closeStartWindow();
             rb.bodyType = RigidbodyType2D.Dynamic;
-            GameState = GameState.Playing;
+            _PlrGameState = GameState.Playing;
+#if PLATFORM_STANDALONE
+            DiscordManager.SetPresence(_PlrGameState, SaveManager.Data.HighScore, MapRenderer.getScore);
+#endif
         }
-        if(cb.phase == InputActionPhase.Started)
+        if (cb.phase == InputActionPhase.Started)
             Jump();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (GameState != GameState.Playing) return;
+        if (_PlrGameState != GameState.Playing) return;
         // Death Handler
         if (collision.name.Contains("Pipe") || collision.name.Contains("Ground"))
         {
-            GameState = GameState.Dead;
+            _PlrGameState = GameState.Dead;
+#if PLATFORM_STANDALONE
+            DiscordManager.SetPresence(_PlrGameState, SaveManager.Data.HighScore, MapRenderer.getScore);
+#endif
             StartCoroutine(DeathHandler());
-            if (MapRenderer.getScore > SaveManager.Data.HighScore)
-                SaveManager.Data.HighScore = MapRenderer.getScore;
             SaveManager.SaveToDisk();
         } else if(collision.name.Contains("CollectableCoin"))
         {
@@ -85,11 +94,11 @@ public class PlayerHandler : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (GameState != GameState.Playing) return;
+        if (_PlrGameState != GameState.Playing) return;
         // Death Handler
         if (collision.collider.name.Contains("Ground"))
         {
-            GameState = GameState.Dead;
+            _PlrGameState = GameState.Dead;
             StartCoroutine(DeathHandler());
             if (MapRenderer.getScore > SaveManager.Data.HighScore)
                 SaveManager.Data.HighScore = MapRenderer.getScore;

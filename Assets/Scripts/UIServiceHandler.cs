@@ -77,13 +77,13 @@ public class UIServiceHandler : MonoBehaviour
     }
     public void PauseKeyPressed(InputAction.CallbackContext cb)
     {
-        if (isResumeWindowVisible && PlayerHandler.GameState == GameState.Playing) return;
-        if (cb.phase == InputActionPhase.Started && PlayerHandler.GameState != GameState.Dead)
+        if (isResumeWindowVisible && PlayerHandler.PlrGameState == GameState.Playing) return;
+        if (cb.phase == InputActionPhase.Started && PlayerHandler.PlrGameState != GameState.Dead)
         {
             _PauseMenu.SetActive(!_PauseMenu.activeSelf);
             //Time.timeScale = _PauseMenu.activeSelf ? 0 : 1;
             if (_PauseMenu.activeSelf) { Time.timeScale = 0; return; }
-            if (PlayerHandler.GameState == GameState.Playing)
+            if (PlayerHandler.PlrGameState == GameState.Playing)
                 StartCoroutine(RunResumeWindow());
             else
                 Time.timeScale = _PauseMenu.activeSelf ? 0 : 1;
@@ -92,7 +92,7 @@ public class UIServiceHandler : MonoBehaviour
     public void Resumebtn_Handler()
     {
         _PauseMenu.SetActive(false);
-        if (PlayerHandler.GameState == GameState.Playing)
+        if (PlayerHandler.PlrGameState == GameState.Playing)
             StartCoroutine(RunResumeWindow());
         else
             Time.timeScale = _PauseMenu.activeSelf ? 0 : 1;
@@ -125,6 +125,6 @@ public class UIServiceHandler : MonoBehaviour
         PlayerHandler.PlayerVelocity = Vector2.zero;
         Time.timeScale = 1;
     }
-    public bool isResumeWindowVisible { get => instance._ResumeWindow.activeSelf;  } 
+    public static bool isResumeWindowVisible { get => instance._ResumeWindow.activeSelf;  } 
 
 }

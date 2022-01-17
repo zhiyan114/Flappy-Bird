@@ -32,7 +32,7 @@ public class MapRenderer : MonoBehaviour
     }
     private void Update()
     {
-        if(PlayerHandler.GameState == GameState.Playing)
+        if(PlayerHandler.PlrGameState == GameState.Playing)
         {
             // Pipes Movement
             for (int i = 0; i < PipeComponents.Count; i++)
@@ -44,6 +44,11 @@ public class MapRenderer : MonoBehaviour
                 {
                     SoundHandler.PlaySound(SoundOption.Point);
                     PlayerScore += 1;
+                    if (PlayerScore > SaveManager.Data.HighScore)
+                        SaveManager.Data.HighScore = PlayerScore;
+#if PLATFORM_STANDALONE
+                    DiscordManager.SetPresence(PlayerHandler.PlrGameState, SaveManager.Data.HighScore, PlayerScore);
+#endif
                     UIServiceHandler.instance.ScoreUI = PlayerScore;
                 }
                 if (pipeComponent.getXPos < -Pipe_Add_Pos)
@@ -65,7 +70,7 @@ public class MapRenderer : MonoBehaviour
                 newPipe(Random.Range(minHeight, maxHeight), Pipe_Add_Pos, SpawnSize);
             }
         }
-        if(PlayerHandler.GameState != GameState.Dead)
+        if(PlayerHandler.PlrGameState != GameState.Dead)
         {
             // Ground Spawner
             foreach (Transform Ground in GroundObject)
