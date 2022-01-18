@@ -15,8 +15,10 @@ using Org.BouncyCastle.Crypto.Parameters;
 using ProtoBuf;
 using System.Reflection;
 using UnityEngine;
+using System.ComponentModel;
 
 // add [ProtoMap(DisableMap = true)] to Dictionary in order to fix IL2CPP compilation error
+// add [DefaultValue(true)] if any value are not default
 [ProtoContract]
 public class SaveData
 {
@@ -24,6 +26,11 @@ public class SaveData
     public int HighScore { get; set; } = 0;
     [ProtoMember(2)]
     public int Balance { get; set; } = 0;
+    [ProtoMember(3)]
+    public bool FastSpeed { get; set; } = false;
+    [ProtoMember(4)]
+    [DefaultValue(true)]
+    public bool DiscordPresence { get; set; } = true;
 }
 static public class SaveManager
 {
@@ -62,7 +69,8 @@ static public class SaveManager
     {
         try
         {
-            File.Delete(FilePath);
+            if(SaveFileExist())
+                File.Delete(FilePath);
             using (FileStream SaveFile = new FileStream(FilePath, FileMode.Create))
             {
                 byte[] RandIV = new byte[12];

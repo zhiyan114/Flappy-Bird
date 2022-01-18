@@ -8,7 +8,7 @@ public static class DiscordManager
 {
     // Only use discord presence in production otherwise it bad :/
 #if PLATFORM_STANDALONE && !UNITY_EDITOR
-    private static Discord.Discord DiscordCaller = new Discord.Discord(932403884788432927, (UInt64)CreateFlags.NoRequireDiscord);
+    private static Discord.Discord DiscordCaller = SaveManager.Data.DiscordPresence ? new Discord.Discord(932403884788432927, (UInt64)CreateFlags.NoRequireDiscord) : null;
 #else
     private static Discord.Discord DiscordCaller = null;
 #endif

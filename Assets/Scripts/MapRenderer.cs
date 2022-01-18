@@ -9,6 +9,7 @@ public class MapRenderer : MonoBehaviour
     private const float Ground_Spawn = 210f;
     private const float Pipe_Add_Pos = 200f;
     private const float SpawnHeightLimit = 10f;
+    private float MovementSpeed = SaveManager.Data.FastSpeed ? 100f : 50f;
     [SerializeField]
     private Camera Camera;
     [SerializeField]
@@ -39,16 +40,11 @@ public class MapRenderer : MonoBehaviour
             {
                 Pipe pipeComponent = PipeComponents[i];
                 bool isToTheRightOfBird = pipeComponent.getXPos > 0f;
-                pipeComponent.Move(50);
+                pipeComponent.Move(MovementSpeed);
                 if (isToTheRightOfBird && pipeComponent.getXPos <= 0f && pipeComponent.isTop)
                 {
                     SoundHandler.PlaySound(SoundOption.Point);
                     PlayerScore += 1;
-                    if (PlayerScore > SaveManager.Data.HighScore)
-                        SaveManager.Data.HighScore = PlayerScore;
-#if PLATFORM_STANDALONE
-                    DiscordManager.SetPresence(PlayerHandler.PlrGameState, SaveManager.Data.HighScore, PlayerScore);
-#endif
                     UIServiceHandler.instance.ScoreUI = PlayerScore;
                 }
                 if (pipeComponent.getXPos < -Pipe_Add_Pos)
@@ -62,7 +58,7 @@ public class MapRenderer : MonoBehaviour
             pipeSpawnTimer -= Time.deltaTime;
             if (pipeSpawnTimer < 0)
             {
-                pipeSpawnTimer += 2f;
+                pipeSpawnTimer += SaveManager.Data.FastSpeed ? 1.5f : 2f;
                 SpawnedPipes += 1;
                 float SpawnSize = CalculateSizeDifficulty();
                 float minHeight = SpawnSize / 2f + SpawnHeightLimit;
@@ -75,7 +71,7 @@ public class MapRenderer : MonoBehaviour
             // Ground Spawner
             foreach (Transform Ground in GroundObject)
             {
-                Ground.position += Vector3.left * 50 * Time.deltaTime;
+                Ground.position += Vector3.left * MovementSpeed * Time.deltaTime;
                 if (Ground.position.x < -Ground_Spawn)
                 {
                     float rightMostX = -Ground_Spawn;

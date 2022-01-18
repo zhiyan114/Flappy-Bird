@@ -39,6 +39,9 @@ public class UIServiceHandler : MonoBehaviour
         {
             _ScoreUI.text = value.ToString();
             if (value > HighScore) HighScore = value;
+#if PLATFORM_STANDALONE
+            DiscordManager.SetPresence(PlayerHandler.PlrGameState, (value > HighScore) ? value : HighScore, MapRenderer.getScore);
+#endif
         }
     }
     // Dead Menu Hanlding

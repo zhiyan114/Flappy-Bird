@@ -6,16 +6,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
-[ProtoContract]
-public enum GameState
-{
-    [ProtoEnum]
-    WaitToStart,
-    [ProtoEnum]
-    Playing,
-    [ProtoEnum]
-    Dead,
-}
 public class PlayerHandler : MonoBehaviour
 {
     private PlayerInput PlrInput;
@@ -80,9 +70,8 @@ public class PlayerHandler : MonoBehaviour
         if (collision.name.Contains("Pipe") || collision.name.Contains("Ground"))
         {
             _PlrGameState = GameState.Dead;
-#if PLATFORM_STANDALONE
-            DiscordManager.SetPresence(_PlrGameState, SaveManager.Data.HighScore, MapRenderer.getScore);
-#endif
+            if (MapRenderer.getScore > SaveManager.Data.HighScore)
+                SaveManager.Data.HighScore = MapRenderer.getScore;
             StartCoroutine(DeathHandler());
             SaveManager.SaveToDisk();
         } else if(collision.name.Contains("CollectableCoin"))
@@ -92,21 +81,11 @@ public class PlayerHandler : MonoBehaviour
             Destroy(collision.gameObject);
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (_PlrGameState != GameState.Playing) return;
-        // Death Handler
-        if (collision.collider.name.Contains("Ground"))
-        {
-            _PlrGameState = GameState.Dead;
-            StartCoroutine(DeathHandler());
-            if (MapRenderer.getScore > SaveManager.Data.HighScore)
-                SaveManager.Data.HighScore = MapRenderer.getScore;
-            SaveManager.SaveToDisk();
-        }
-    }
     private IEnumerator DeathHandler()
     {
+#if PLATFORM_STANDALONE
+        DiscordManager.SetPresence(_PlrGameState, SaveManager.Data.HighScore, MapRenderer.getScore);
+#endif
         SoundHandler.PlaySound(SoundOption.Hit);
         yield return new WaitForSeconds(.5f);
         SoundHandler.PlaySound(SoundOption.Die);
