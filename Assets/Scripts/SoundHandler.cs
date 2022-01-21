@@ -2,33 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using ProtoBuf;
-[ProtoContract]
-public enum SoundOption
-{
-    [ProtoEnum]
-    Die,
-    [ProtoEnum]
-    Hit,
-    [ProtoEnum]
-    Point,
-    [ProtoEnum]
-    Swoosh,
-    [ProtoEnum]
-    Wing,
-}
+
 
 public class SoundHandler : MonoBehaviour
 {
-    [SerializeField]
-    private AudioClip Die;
-    [SerializeField]
-    private AudioClip Hit;
-    [SerializeField]
-    private AudioClip Point;
-    [SerializeField]
-    private AudioClip Swoosh;
-    [SerializeField]
-    private AudioClip Wing;
 
     private AudioSource SoundService;
     private static SoundHandler instance;
@@ -43,20 +20,24 @@ public class SoundHandler : MonoBehaviour
         switch(SoundOpt)
         {
             case SoundOption.Die:
-                instance.SoundService.PlayOneShot(instance.Die);
+                instance.SoundService.PlayOneShot(GetSound("die"));
                 break;
             case SoundOption.Hit:
-                instance.SoundService.PlayOneShot(instance.Hit);
+                instance.SoundService.PlayOneShot(GetSound("hit"));
                 break;
             case SoundOption.Point:
-                instance.SoundService.PlayOneShot(instance.Point);
+                instance.SoundService.PlayOneShot(GetSound("point"));
                 break;
             case SoundOption.Swoosh:
-                instance.SoundService.PlayOneShot(instance.Swoosh);
+                instance.SoundService.PlayOneShot(GetSound("woosh"));
                 break;
             case SoundOption.Wing:
-                instance.SoundService.PlayOneShot(instance.Wing);
+                instance.SoundService.PlayOneShot(GetSound("wing"));
                 break;
         }
+    }
+    private static AudioClip GetSound(string name)
+    {
+        return Resources.Load<AudioClip>("Audio/" + name);
     }
 }
