@@ -10,7 +10,10 @@ public class ShopHandler : MonoBehaviour
         { 2, new ShopItem.Skins { id = 2, name = "Red", description = "An NFT reskin", price = 69 } },
         { 3, new ShopItem.Skins { id = 3, name = "Blue", description = "Another NFT reskin??!??!?", price = 69 } },
     };
+    private void RenderSkinLists()
+    {
 
+    }
     private void Awake()
     {
 
