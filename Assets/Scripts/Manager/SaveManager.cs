@@ -35,7 +35,7 @@ public class SaveData
     [DefaultValue(1)]
     public int CurrentSkin { get; set; }  = 1;
     [ProtoMember(6)]
-    public List<int> OwnedSkin = new List<int>() { 1 };
+    public List<int> OwnedSkin { get; set; } = new List<int>() { 1 };
 
 }
 static public class SaveManager
