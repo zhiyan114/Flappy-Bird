@@ -313,7 +313,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.060058594, y: -36.79001}
+  m_AnchoredPosition: {x: 0.060058594, y: -36.789993}
   m_SizeDelta: {x: -0.11987, y: -252.092}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &316954660
@@ -463,7 +463,7 @@ GameObject:
   - component: {fileID: 506443752}
   - component: {fileID: 506443751}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: ActionName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1491,7 +1491,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -198.58401, y: 3.880005}
+  m_AnchoredPosition: {x: -198.58405, y: 3.880005}
   m_SizeDelta: {x: 396.431, y: -7.76}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1331955169
@@ -1547,6 +1547,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DisplayTemplate: {fileID: 6047707895147871553}
+  Pages: {fileID: 729586630}
+  CheckoutUI: {fileID: 1175858931}
+  DisplayShelf: {fileID: 729586630}
 --- !u!1 &1498174037
 GameObject:
   m_ObjectHideFlags: 0
@@ -1875,7 +1878,7 @@ GameObject:
   - component: {fileID: 1844393478}
   - component: {fileID: 1844393477}
   m_Layer: 0
-  m_Name: Button
+  m_Name: ActionBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1899,8 +1902,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.00023723, y: 20.240005}
-  m_SizeDelta: {x: 216.685, y: 40.62799}
+  m_AnchoredPosition: {x: -0.89461, y: 22.99}
+  m_SizeDelta: {x: 245.23, y: 45.98}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1844393477
 MonoBehaviour:
@@ -1959,7 +1962,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 1, b: 0.9233861, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
