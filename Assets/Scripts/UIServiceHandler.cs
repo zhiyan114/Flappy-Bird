@@ -73,6 +73,7 @@ public class UIServiceHandler : MonoBehaviour
     }
     public void ShopBtn_Handler()
     {
+        Time.timeScale = 1;
         SceneManager.LoadScene("MainShop", LoadSceneMode.Single);
     }
     // Pause Menu Handler
