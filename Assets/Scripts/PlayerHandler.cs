@@ -13,6 +13,7 @@ public class PlayerHandler : MonoBehaviour
     private GameState _PlrGameState = GameState.WaitToStart;
     public static GameState PlrGameState { get => instance._PlrGameState; set => instance._PlrGameState = value; }
     private Rigidbody2D rb;
+    private bool TouchShopBtn = false;
     public static Vector2 PlayerVelocity
     {
         get => instance.rb.velocity;
@@ -58,6 +59,7 @@ public class PlayerHandler : MonoBehaviour
         if (UIServiceHandler.pauseMenuVisible || UIServiceHandler.isResumeWindowVisible) return;
         if (_PlrGameState == GameState.WaitToStart)
         {
+            if (TouchShopBtn) return;
             UIServiceHandler.closeStartWindow();
             rb.bodyType = RigidbodyType2D.Dynamic;
             _PlrGameState = GameState.Playing;
@@ -101,4 +103,13 @@ public class PlayerHandler : MonoBehaviour
 
     }
 
+    // Internal shop button events
+    public void ShopBtn_Enter()
+    {
+        TouchShopBtn = true;
+    }
+    public void ShopBtn_Leave()
+    {
+        TouchShopBtn = false;
+    }
 }
