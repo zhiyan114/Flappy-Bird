@@ -126,7 +126,7 @@ public class ShopHandler : MonoBehaviour
     }
     public void Back_Handler()
     {
-        SceneManager.LoadScene("MainGame");
+        SceneManager.LoadScene("MainGame", LoadSceneMode.Single);
     }
     // Start is called before the first frame update
     void Start()

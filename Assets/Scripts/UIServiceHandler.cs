@@ -71,6 +71,10 @@ public class UIServiceHandler : MonoBehaviour
     {
         instance._StartWindow.SetActive(false);
     }
+    public void ShopBtn_Handler()
+    {
+        SceneManager.LoadScene("MainShop", LoadSceneMode.Single);
+    }
     // Pause Menu Handler
     [SerializeField]
     private GameObject _PauseMenu;
