@@ -17,9 +17,9 @@ public class ShopHandler : MonoBehaviour
     private ShopItem.IShopItem CurrentItem;
     private static Dictionary<int, ShopItem.Skins> AvailableSkins = new Dictionary<int, ShopItem.Skins>()
     {
-        { 1, new ShopItem.Skins { id = 1, name = "Default", description = "Do the default dance!!!!!", price=0 } },
-        { 2, new ShopItem.Skins { id = 2, name = "Red", description = "An NFT reskin", price = 69 } },
-        { 3, new ShopItem.Skins { id = 3, name = "Blue", description = "Another NFT reskin??!??!?", price = 69 } },
+        { 1, new ShopItem.Skins { id = 1, name = "Default", description = "Do the default dance!!!!!", price=0, DefaultSprite = "Skins/Default/yellowbird-midflap" } },
+        { 2, new ShopItem.Skins { id = 2, name = "Red", description = "An NFT reskin", price = 69, DefaultSprite = "Skins/Red/redbird-midflap" } },
+        { 3, new ShopItem.Skins { id = 3, name = "Blue", description = "Another NFT reskin??!??!?", price = 69, DefaultSprite = "Skins/Blue/bluebird-midflap" } },
     };
     private void RenderSkinLists()
     {
@@ -31,8 +31,9 @@ public class ShopHandler : MonoBehaviour
     private void ShopDetailDisplay_Handler(ShopItem.IShopItem skinObj)
     {
         CheckoutUI.Find("Title").GetComponent<TextMeshProUGUI>().text = skinObj.name;
-        CheckoutUI.Find("Img").GetComponent<Image>().sprite = Resources.Load<Sprite>(skinObj.DefaultSprite);
-        CheckoutUI.Find("Cost").GetComponent<TextMeshProUGUI>().text = skinObj.price.ToString();
+        CheckoutUI.Find("Description").GetComponent<TextMeshProUGUI>().text = skinObj.description;
+        CheckoutUI.Find("Image").GetComponent<Image>().sprite = Resources.Load<Sprite>("ShopItem/" + skinObj.DefaultSprite);
+        CheckoutUI.Find("Price").GetComponent<TextMeshProUGUI>().text = skinObj.price.ToString();
         TextMeshProUGUI ActionBtnText = CheckoutUI.Find("ActionBtn").Find("ActionName").GetComponent<TextMeshProUGUI>();
         CurrentItem = skinObj;
         Button ActionBtn = CheckoutUI.Find("ActionBtn").GetComponent<Button>();
@@ -62,7 +63,7 @@ public class ShopHandler : MonoBehaviour
     {
         Transform Template = Instantiate(DisplayTemplate, parentobj);
         Template.Find("Title").GetComponent<TextMeshProUGUI>().text = ShopItem.name;
-        Template.Find("Image").GetComponent<Image>().sprite = Resources.Load<Sprite>(ShopItem.DefaultSprite);
+        Template.Find("Image").GetComponent<Image>().sprite = Resources.Load<Sprite>("ShopItem/" + ShopItem.DefaultSprite);
         Template.Find("Price").GetComponent<TextMeshProUGUI>().text = ShopItem.price.ToString();
         RectTransform Template_Rect = Template.GetComponent<RectTransform>();
         if (!(LastTemplate is null))
@@ -86,6 +87,7 @@ public class ShopHandler : MonoBehaviour
             //Template_Rect.anchorMin = new Vector2((float)((LastClone.anchorMin.x * 2)+0.02), (float)(LastClone.anchorMin.x > 0.95 ? (LastClone.anchorMin.y*2)+0.02 : LastClone.anchorMin.y));
         }
         LastTemplate = Template.GetComponent<RectTransform>();
+        Template.gameObject.SetActive(true);
         return Template;
     }
     public void CheckoutAction_Handler()
