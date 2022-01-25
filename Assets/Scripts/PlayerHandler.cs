@@ -28,11 +28,16 @@ public class PlayerHandler : MonoBehaviour
     void Start()
     {
         rb.bodyType = RigidbodyType2D.Static;
+        RenderPlayerSkin();
 #if PLATFORM_STANDALONE
         DiscordManager.SetPresence(_PlrGameState, SaveManager.Data.HighScore, 0);
 #endif
     }
-
+    private void RenderPlayerSkin()
+    {
+        GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("ShopItem/"+ ShopHandler.AvailableSkins[SaveManager.Data.CurrentSkin].DefaultSprite);
+        GetComponent<Animator>().SetInteger("SkinID", SaveManager.Data.CurrentSkin);
+    }
     // Update is called once per frame
     void Update()
     {

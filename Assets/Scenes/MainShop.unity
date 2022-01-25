@@ -1805,9 +1805,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: MainMenuHandler, Assembly-CSharp
-        m_MethodName: Quitbtn_Handler
+      - m_Target: {fileID: 1331955171}
+        m_TargetAssemblyTypeName: ShopHandler, Assembly-CSharp
+        m_MethodName: Back_Handler
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -16,7 +16,7 @@ public class ShopHandler : MonoBehaviour
     private Transform CheckoutUI;
 
     private ShopItem.IShopItem CurrentItem;
-    private static Dictionary<int, ShopItem.Skins> AvailableSkins = new Dictionary<int, ShopItem.Skins>()
+    public static Dictionary<int, ShopItem.Skins> AvailableSkins = new Dictionary<int, ShopItem.Skins>()
     {
         { 1, new ShopItem.Skins { id = 1, name = "Default", description = "Do the default dance!!!!!", price=0, DefaultSprite = "Skins/Default/yellowbird-midflap" } },
         { 2, new ShopItem.Skins { id = 2, name = "Red", description = "An NFT reskin", price = 69, DefaultSprite = "Skins/Red/redbird-midflap" } },
