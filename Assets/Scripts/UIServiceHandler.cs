@@ -111,6 +111,7 @@ public class UIServiceHandler : MonoBehaviour
     private TextMeshProUGUI _CoinsCountWindow;
     public static void setCoinCountUI(int coins)
     {
+        if (!instance) return;
         instance._CoinsCountWindow.text = coins.ToString();
     }
     // Resume UI Handler

@@ -12,6 +12,7 @@ public class EconomyManager
     public static bool setBalance(int val)
     {
         int newVal = getBalance + val;
+        Debug.Log(SaveManager.SavePath);
         if (newVal > 2000000000 || newVal < 0) return false;
         SaveManager.Data.Balance = newVal;
         UIServiceHandler.setCoinCountUI(newVal);

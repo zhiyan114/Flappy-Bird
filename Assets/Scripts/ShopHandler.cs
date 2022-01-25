@@ -4,6 +4,7 @@ using UnityEngine;
 using ProtoBuf;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ShopHandler : MonoBehaviour
 {
@@ -27,6 +28,7 @@ public class ShopHandler : MonoBehaviour
         {
             TemplateGenerator(Pages.Find("SkinPage"), skin.Value).GetComponent<Button>().onClick.AddListener(delegate { ShopDetailDisplay_Handler(skin.Value); });
         }
+        ShopDetailDisplay_Handler(AvailableSkins[SaveManager.Data.CurrentSkin]);
     }
     private void ShopDetailDisplay_Handler(ShopItem.IShopItem skinObj)
     {
@@ -110,6 +112,7 @@ public class ShopHandler : MonoBehaviour
         SaveManager.Data.CurrentSkin = CurrentItem.id;
         ActionBtn.GetComponent<Button>().interactable = false;
         ActionBtn.Find("ActionName").GetComponent<TextMeshProUGUI>().text = "Equipped";
+        SaveManager.SaveToDisk();
     }
     private IEnumerator LowBalanceMsg()
     {
@@ -121,9 +124,9 @@ public class ShopHandler : MonoBehaviour
         ActionBtn.interactable = true;
         ActionBtnText.text = "Buy";
     }
-    private void Awake()
+    public void Back_Handler()
     {
-
+        SceneManager.LoadScene("MainGame");
     }
     // Start is called before the first frame update
     void Start()
