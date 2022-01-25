@@ -31,6 +31,12 @@ public class SaveData
     [ProtoMember(4)]
     [DefaultValue(true)]
     public bool DiscordPresence { get; set; } = true;
+    [ProtoMember(5)]
+    [DefaultValue(1)]
+    public int CurrentSkin { get; set; }  = 1;
+    [ProtoMember(6)]
+    public List<int> OwnedSkin { get; set; } = new List<int>() { 1 };
+
 }
 static public class SaveManager
 {
