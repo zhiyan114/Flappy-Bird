@@ -69,8 +69,8 @@ public class ShopHandler : MonoBehaviour
         if (!(LastTemplate is null))
         {
             RectTransform Default_Rect = DisplayShelf.GetComponent<RectTransform>();
-            float xdiff = Mathf.Abs(Default_Rect.anchorMax.x - Default_Rect.anchorMin.x);
-            float ydiff = Mathf.Abs(Default_Rect.anchorMax.y - Default_Rect.anchorMin.y);
+            float xdiff = Template.GetComponent<RectTransform>().anchorMax.x;//Mathf.Abs(Default_Rect.anchorMax.x - Default_Rect.anchorMin.x);
+            float ydiff = Template.GetComponent<RectTransform>().anchorMax.y;//Mathf.Abs(Default_Rect.anchorMax.y - Default_Rect.anchorMin.y);
             if (LastTemplate.anchorMax.x < 0.8)
             {
                 Template_Rect.anchorMin = new Vector2((float)(LastTemplate.anchorMax.x + 0.02), LastTemplate.anchorMin.y);
