@@ -60,6 +60,17 @@
                 },
                 {
                     "name": "",
+                    "id": "0dcac465-1b0a-48af-b9c7-f331ee993b97",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "2a623f5b-8744-4d65-ae6c-a44e1fef7d8a",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
